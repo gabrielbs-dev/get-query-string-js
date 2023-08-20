@@ -2,21 +2,29 @@
 
 ```javascript
 function getParams(){
-    const paramsURL = location.href.split(location.pathname)[1];
-    const parmasExtracted = paramsURL.substring(1, paramsURL.length).split("&");
+    const paramsExtracted = location.search.substring(1).split("&");
+
     const params = {};
 
-    parmasExtracted.forEach(element => {
-        params[element.split("=")[0]] = element.split("=")[1];
-    });
+    for (const item of paramsExtracted) {
+        if (item.trim() !== '') {
+            let index = item.indexOf('=');
 
-    return paramsURL == "" ? {} : params;
+            if (index !== -1) {
+                params[item.substring(0, index)] = item.substring(index + 1);
+            } else {
+                params[item] = null;
+            }
+        }
+    }
+
+    return params;
 }
 ```
 
 ## Versão minificada (Minified version)
 ```javascript
-function getParams(){const t=location.href.split(location.pathname)[1],n=t.substring(1,t.length).split("&"),i={};return n.forEach(t=>{i[t.split("=")[0]]=t.split("=")[1]}),""==t?{}:i}
+function getParams(){const t=location.search.substring(1).split("&"),n={};for(const s of t)if(""!==s.trim()){let t=s.indexOf("=");-1!==t?n[s.substring(0,t)]=s.substring(t+1):n[s]=null}return n}
 ```
 
 ## Como usar (How to use)
